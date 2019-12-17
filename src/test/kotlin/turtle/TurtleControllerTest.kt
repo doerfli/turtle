@@ -4,18 +4,18 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class TurtleTest {
+class TurtleControllerTest {
 
-    private lateinit var turtle: Turtle
+    private lateinit var controller: TurtleController
 
     @BeforeEach
     fun before() {
-        turtle = Turtle()
+        controller = TurtleController(Turtle())
     }
 
     @Test
     fun forward() {
-        val (x,y,r) = turtle.forward(10)
+        val (x,y,r) = controller.forward(10).turtle()
         assertThat(x).isEqualTo(10)
         assertThat(y).isEqualTo(0)
         assertThat(r).isEqualTo(0)
@@ -23,28 +23,28 @@ class TurtleTest {
 
     @Test
     fun forwardNegative() {
-        val (x,y,r) = turtle.forward(-10)
+        val (x,y,r) = controller.forward(-10).turtle()
         assertThat(x).isEqualTo(-10)
         assertThat(y).isEqualTo(0)
     }
 
     @Test
     fun backward() {
-        val (x,y,r) = turtle.backward(10)
+        val (x,y,r) = controller.backward(10).turtle()
         assertThat(x).isEqualTo(-10)
         assertThat(y).isEqualTo(0)
     }
 
     @Test
     fun backwardNegative() {
-        val (x,y,r) = turtle.backward(-10)
+        val (x,y,r) = controller.backward(-10).turtle()
         assertThat(x).isEqualTo(10)
         assertThat(y).isEqualTo(0)
     }
 
     @Test
     fun right() {
-        val (x,y,r) = turtle.right(90)
+        val (x,y,r) = controller.right(90).turtle()
         assertThat(x).isEqualTo(0)
         assertThat(y).isEqualTo(0)
         assertThat(r).isEqualTo(90)
@@ -52,7 +52,7 @@ class TurtleTest {
 
     @Test
     fun rightNegative() {
-        val (x,y,r) = turtle.right(-90)
+        val (x,y,r) = controller.right(-90).turtle()
         assertThat(x).isEqualTo(0)
         assertThat(y).isEqualTo(0)
         assertThat(r).isEqualTo(-90)
@@ -60,7 +60,7 @@ class TurtleTest {
 
     @Test
     fun left() {
-        val (x,y,r) = turtle.left(-90)
+        val (x,y,r) = controller.left(-90).turtle()
         assertThat(x).isEqualTo(0)
         assertThat(y).isEqualTo(0)
         assertThat(r).isEqualTo(90)
@@ -68,7 +68,7 @@ class TurtleTest {
 
     @Test
     fun leftNegative() {
-        val (x,y,r) = turtle.left(90)
+        val (x,y,r) = controller.left(90).turtle()
         assertThat(x).isEqualTo(0)
         assertThat(y).isEqualTo(0)
         assertThat(r).isEqualTo(-90)
@@ -76,7 +76,7 @@ class TurtleTest {
 
     @Test
     fun forwardRightForward() {
-        val (x, y, r) = turtle.forward(10).right(90).forward(10)
+        val (x, y, r) = controller.forward(10).right(90).forward(10).turtle()
         assertThat(x).isEqualTo(10)
         assertThat(y).isEqualTo(10)
         assertThat(r).isEqualTo(90)
@@ -84,7 +84,7 @@ class TurtleTest {
 
     @Test
     fun forwardRightNegativeForward() {
-        val (x, y, r) = turtle.forward(10).right(-90).forward(10)
+        val (x, y, r) = controller.forward(10).right(-90).forward(10).turtle()
         assertThat(x).isEqualTo(10)
         assertThat(y).isEqualTo(-10)
         assertThat(r).isEqualTo(-90)
@@ -92,7 +92,7 @@ class TurtleTest {
 
     @Test
     fun rightBackward() {
-        val (x, y, r) = turtle.right(90).backward(10)
+        val (x, y, r) = controller.right(90).backward(10).turtle()
         assertThat(x).isEqualTo(0)
         assertThat(y).isEqualTo(-10)
         assertThat(r).isEqualTo(90)
@@ -100,7 +100,7 @@ class TurtleTest {
 
     @Test
     fun left45Forward10() {
-        val (x,y,r) = turtle.left(45).forward(10)
+        val (x,y,r) = controller.left(45).forward(10).turtle()
         assertThat(x).isEqualTo(7)
         assertThat(y).isEqualTo(-7)
         assertThat(r).isEqualTo(-45)
@@ -108,7 +108,7 @@ class TurtleTest {
 
     @Test
     fun right20Forward10() {
-        val (x,y,r) = turtle.right(20).forward(10)
+        val (x,y,r) = controller.right(20).forward(10).turtle()
         assertThat(x).isEqualTo(9)
         assertThat(y).isEqualTo(3)
         assertThat(r).isEqualTo(20)
@@ -116,7 +116,7 @@ class TurtleTest {
 
     @Test
     fun right20Forward10Left90Forward10() {
-        val (x,y,r) = turtle.right(20).forward(10).left(90).forward(10)
+        val (x,y,r) = controller.right(20).forward(10).left(90).forward(10).turtle()
         assertThat(x).isEqualTo(12)
         assertThat(y).isEqualTo(-6)
         assertThat(r).isEqualTo(-70)
@@ -124,7 +124,7 @@ class TurtleTest {
 
     @Test
     fun square() {
-        val (x,y,r) = turtle
+        val (x,y,r) = controller
             .forward(10)
             .right(90)
             .forward(10)
@@ -132,7 +132,7 @@ class TurtleTest {
             .forward(10)
             .right(90)
             .forward(10)
-            .right(90)
+            .right(90).turtle()
 
         assertThat(x).isEqualTo(0)
         assertThat(y).isEqualTo(0)
@@ -141,7 +141,7 @@ class TurtleTest {
 
     @Test
     fun squareApply() {
-        val (x,y,r) = turtle.apply {
+        val (x,y,r) = controller.apply {
             forward(10)
             right(90)
             forward(10)
@@ -150,7 +150,25 @@ class TurtleTest {
             right(90)
             forward(10)
             right(90)
-        }
+        }.turtle()
+
+        assertThat(x).isEqualTo(0)
+        assertThat(y).isEqualTo(0)
+        assertThat(r).isEqualTo(0)
+    }
+
+    @Test
+    fun squareDsl() {
+        val (x,y,r) = turtle {
+            forward(10)
+            right(90)
+            forward(10)
+            right(90)
+            forward(10)
+            right(90)
+            forward(10)
+            right(90)
+        }.go()
 
         assertThat(x).isEqualTo(0)
         assertThat(y).isEqualTo(0)
