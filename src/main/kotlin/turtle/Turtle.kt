@@ -3,7 +3,7 @@ package turtle
 import kotlin.math.cos
 import kotlin.math.sin
 
-data class Turtle(val x: Int = 0, val y: Int = 0, val r: Int = 0)
+data class Turtle(val x: Int = 0, val y: Int = 0, val r: Int = 0, val penDown: Boolean = false)
 
 fun Turtle.forward(distance: Int): Turtle {
     return copy(
@@ -25,4 +25,12 @@ fun Turtle.left(degrees: Int): Turtle {
 
 private fun Int.toRadians(): Double {
     return 2 * Math.PI * this / 360
+}
+
+fun Turtle.penDown(): Turtle {
+    return copy(penDown = true)
+}
+
+fun Turtle.penUp(): Turtle {
+    return copy(penDown = false)
 }

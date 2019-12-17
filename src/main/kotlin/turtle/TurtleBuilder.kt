@@ -23,6 +23,13 @@ class TurtleBuilder constructor(private var turtle: Turtle = Turtle()) {
         turtle = turtle.right(angle)
     }
 
+    fun penDown() {
+        turtle = turtle.penDown()
+    }
+
+    fun penUp() {
+        turtle = turtle.penUp()
+    }
 }
 
 fun turtle(initializer: TurtleBuilder.() -> Unit): TurtleBuilder {
